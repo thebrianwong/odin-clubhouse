@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { hashPassword } = require("../utils/authenticationUtils");
 
 const getSignUpPage = (req, res) => {
   res.render("sign-up");
@@ -25,12 +26,13 @@ const validateSignUpDetails = [
     .withMessage("Passwords must match."),
 ];
 
-const postAccountCreation = (req, res, next) => {
+const postAccountCreation = async (req, res, next) => {
   const result = validationResult(req);
   if (result.errors.length) {
     res.status(401).send("errors");
   }
-  console.log(req.body);
+  // console.log(req.body);
+  console.log(await hashPassword(req.body.password));
   next();
 };
 
