@@ -8,12 +8,22 @@ const getSignUpPage = (req, res) => {
 
 const validateSignUpDetails = [
   body("firstName")
+    .trim()
+    .escape()
     .notEmpty()
     .withMessage("First name must not be empty.")
     .isString(),
   body("lastName")
+    .trim()
+    .escape()
     .notEmpty()
     .withMessage("Last name must not be empty.")
+    .isString(),
+  body("username")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Username must not be empty.")
     .isString(),
   body("password")
     .notEmpty()
