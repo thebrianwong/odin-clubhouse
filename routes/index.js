@@ -10,10 +10,6 @@ router.get("/", (req, res, next) => {
 
 router.get("/sign-up", authenticationController.getSignUpPage);
 
-router.post(
-  "/sign-up",
-  authenticationController.validateSignUpDetails,
-  authenticationController.postAccountCreation
-);
+router.post("/sign-up", authenticationController.postHandleSignUp);
 
 module.exports = router;

@@ -35,14 +35,18 @@ const validateSignUpDetails = [
     .withMessage("Password must be confirmed.")
     .custom((value, { req }) => value === req.body.password)
     .withMessage("Passwords must match."),
+  (req, res, next) => {
+    const result = validationResult(req);
+    if (result.errors.length) {
+      // Redirect to sign up page with form filled with entered details
+      res.status(401).send("errors");
+    } else {
+      next();
+    }
+  },
 ];
 
-const postAccountCreation = async (req, res, next) => {
-  const result = validationResult(req);
-  if (result.errors.length) {
-    // Redirect to sign up page with form filled with entered details
-    res.status(401).send("errors");
-  }
+const createAccount = async (req, res, next) => {
   const { firstName, lastName, username, password } = req.body;
   const hashedPassword = await hashPassword(password);
   const newUser = new User({
@@ -58,8 +62,9 @@ const postAccountCreation = async (req, res, next) => {
   next();
 };
 
+const postHandleSignUp = [validateSignUpDetails, createAccount];
+
 module.exports = {
   getSignUpPage,
-  validateSignUpDetails,
-  postAccountCreation,
+  postHandleSignUp,
 };
