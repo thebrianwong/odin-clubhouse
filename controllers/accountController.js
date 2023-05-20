@@ -61,7 +61,7 @@ const createAccount = async (req, res, next) => {
   const newUserDocument = await newUser.save();
   console.log(`Successfully created and saved User ID ${newUserDocument._id}`);
   // redirect to login page
-  next();
+  res.redirect("/account/log-in");
 };
 
 const postHandleSignUp = [validateSignUpDetails, createAccount];
