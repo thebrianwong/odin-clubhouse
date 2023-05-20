@@ -5,4 +5,8 @@ const router = express.Router();
 
 router.get("/", postController.getAllPosts);
 
+router.get("/new", postController.getNewPostPage);
+
+router.post("/new", postController.postHandleNewPost);
+
 module.exports = router;

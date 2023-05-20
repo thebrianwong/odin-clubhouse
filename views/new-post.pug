@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+  h1 Submit New Post 
+  form(action="", method="post") 
+    label(for="title") Title:
+      input#title(type="text", name="title", required)
+    label(for="message") Message:
+      textarea#message(name="message", cols="30", rows="10", required)
+    input(type="submit", value="Post")
