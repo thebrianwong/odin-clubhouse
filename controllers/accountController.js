@@ -88,7 +88,6 @@ const postHandleMembership = async (req, res) => {
     res.status(403).send("Unauthorized");
   }
   if (req.body.password !== process.env.MEMBER_PASSWORD) {
-    console.log("dd");
     res.redirect("/account/member");
     return;
   }
@@ -111,7 +110,6 @@ const postHandleGrantAdmin = async (req, res) => {
     res.status(403).send("Unauthorized");
   }
   if (req.body.password !== process.env.ADMIN_PASSWORD) {
-    console.log("dd");
     res.redirect("/account/admin");
     return;
   }
