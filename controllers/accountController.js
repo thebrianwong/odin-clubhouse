@@ -78,6 +78,7 @@ const postLogIn = passport.authenticate("local", {
 const getMemberPage = (req, res) => {
   if (!req.user) {
     res.status(403).send("Unauthorized");
+    return;
   }
   res.render("member", { user: req.user });
 };
@@ -97,6 +98,29 @@ const postHandleMembership = async (req, res) => {
   res.redirect("/post");
 };
 
+const getAdminPage = (req, res) => {
+  if (!req.user || !req.user.isMember) {
+    res.status(403).send("Unauthorized");
+    return;
+  }
+  res.render("admin", { user: req.user });
+};
+
+const postHandleGrantAdmin = async (req, res) => {
+  if (!req.user) {
+    res.status(403).send("Unauthorized");
+  }
+  if (req.body.password !== process.env.ADMIN_PASSWORD) {
+    console.log("dd");
+    res.redirect("/account/admin");
+    return;
+  }
+  const user = await User.findById(req.user.id);
+  user.roles.push("Admin");
+  await user.save();
+  res.redirect("/post");
+};
+
 module.exports = {
   getSignUpPage,
   postHandleSignUp,
@@ -104,4 +128,6 @@ module.exports = {
   postLogIn,
   getMemberPage,
   postHandleMembership,
+  getAdminPage,
+  postHandleGrantAdmin,
 };

@@ -23,4 +23,8 @@ router.get("/member", accountController.getMemberPage);
 
 router.post("/member", accountController.postHandleMembership);
 
+router.get("/admin", accountController.getAdminPage);
+
+router.post("/admin", accountController.postHandleGrantAdmin);
+
 module.exports = router;
