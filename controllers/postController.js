@@ -9,7 +9,7 @@ const getAllPosts = async (req, res, next) => {
       .sort({ date: "descending" })
       .exec();
     console.log(posts);
-    res.render("posts", { posts });
+    res.render("posts", { posts, user: req.user });
   } catch (err) {
     throw new Error("There was an error loading posts from the database.");
   }

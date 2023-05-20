@@ -2,6 +2,9 @@ extends layout
 
 block content 
   h1 Clubhouse Posts 
+  if user
+    a(href="/post/new")
+      button Add New Post  
   for post in posts 
     div 
       p= post.title 
