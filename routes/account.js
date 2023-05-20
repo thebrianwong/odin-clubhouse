@@ -19,4 +19,8 @@ router.get("/log-in", accountController.getLogInPage);
 
 router.post("/log-in", accountController.postLogIn);
 
+router.get("/member", accountController.getMemberPage);
+
+router.post("/member", accountController.postHandleMembership);
+
 module.exports = router;

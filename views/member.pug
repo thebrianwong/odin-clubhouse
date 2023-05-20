@@ -1,0 +1,13 @@
+extends layout 
+
+block content
+  h1 Clubhouse Membership
+  if user && user.isMember 
+    p It seems you are already a member 
+    a(href="/post")
+      button View Posts
+  else 
+    form(action="", method="post") 
+      label(for="password") Enter the secret clubhouse password to become a member.
+        input#password(type="password", name="password")
+      input(type="submit", value="Enter")

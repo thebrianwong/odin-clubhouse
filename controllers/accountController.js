@@ -75,9 +75,33 @@ const postLogIn = passport.authenticate("local", {
   failureRedirect: "/account/log-in",
 });
 
+const getMemberPage = (req, res) => {
+  if (!req.user) {
+    res.status(403).send("Unauthorized");
+  }
+  res.render("member", { user: req.user });
+};
+
+const postHandleMembership = async (req, res) => {
+  if (!req.user) {
+    res.status(403).send("Unauthorized");
+  }
+  if (req.body.password !== process.env.MEMBER_PASSWORD) {
+    console.log("dd");
+    res.redirect("/account/member");
+    return;
+  }
+  const user = await User.findById(req.user.id);
+  user.roles.push("Member");
+  await user.save();
+  res.redirect("/post");
+};
+
 module.exports = {
   getSignUpPage,
   postHandleSignUp,
   getLogInPage,
   postLogIn,
+  getMemberPage,
+  postHandleMembership,
 };
