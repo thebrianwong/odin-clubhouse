@@ -49,7 +49,11 @@ const validateSignUpDetails = [
 
 const createAccount = async (req, res, next) => {
   const { firstName, lastName, username, password } = req.body;
-  // Reject if username already exists
+  const existingUsername = await User.findOne({ username }).exec();
+  if (existingUsername) {
+    res.redirect("/account/sign-up");
+    return;
+  }
   const hashedPassword = await hashPassword(password);
   const newUser = new User({
     firstName,
