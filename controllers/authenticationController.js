@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const { hashPassword } = require("../utils/authenticationUtils");
+const User = require("../models/user");
 
 const getSignUpPage = (req, res) => {
   res.render("sign-up");
@@ -29,10 +30,21 @@ const validateSignUpDetails = [
 const postAccountCreation = async (req, res, next) => {
   const result = validationResult(req);
   if (result.errors.length) {
+    // Redirect to sign up page with form filled with entered details
     res.status(401).send("errors");
   }
-  // console.log(req.body);
-  console.log(await hashPassword(req.body.password));
+  const { firstName, lastName, username, password } = req.body;
+  const hashedPassword = await hashPassword(password);
+  const newUser = new User({
+    firstName,
+    lastName,
+    username,
+    password: hashedPassword,
+    roles: ["User"],
+  });
+  const newUserDocument = await newUser.save();
+  console.log(`Successfully created and saved User ID ${newUserDocument._id}`);
+  // redirect to login page
   next();
 };
 
