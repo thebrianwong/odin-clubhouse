@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const passport = require("passport");
 const { hashPassword } = require("../utils/authenticationUtils");
 const User = require("../models/user");
 
@@ -48,6 +49,7 @@ const validateSignUpDetails = [
 
 const createAccount = async (req, res, next) => {
   const { firstName, lastName, username, password } = req.body;
+  // Reject if username already exists
   const hashedPassword = await hashPassword(password);
   const newUser = new User({
     firstName,
@@ -64,7 +66,18 @@ const createAccount = async (req, res, next) => {
 
 const postHandleSignUp = [validateSignUpDetails, createAccount];
 
+const getLogInPage = (req, res) => {
+  res.render("log-in");
+};
+
+const postLogIn = passport.authenticate("local", {
+  successRedirect: "/sign-up",
+  failureRedirect: "/log-in",
+});
+
 module.exports = {
   getSignUpPage,
   postHandleSignUp,
+  getLogInPage,
+  postLogIn,
 };

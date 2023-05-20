@@ -5,6 +5,14 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const passport = require("passport");
+const session = require("express-session");
+
+const {
+  authenticateLogInCredentials,
+  saveUserId,
+  getUserFromId,
+} = require("./utils/authenticationUtils");
 
 const indexRouter = require("./routes/index");
 
@@ -21,6 +29,20 @@ main()
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 14 },
+  })
+);
+passport.use(authenticateLogInCredentials);
+passport.serializeUser(saveUserId);
+passport.deserializeUser(getUserFromId);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger("dev"));
 app.use(express.json());
