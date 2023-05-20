@@ -71,7 +71,7 @@ const getLogInPage = (req, res) => {
 };
 
 const postLogIn = passport.authenticate("local", {
-  successRedirect: "/account/sign-up",
+  successRedirect: "/post",
   failureRedirect: "/account/log-in",
 });
 
