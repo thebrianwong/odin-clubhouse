@@ -67,8 +67,18 @@ const createPost = async (req, res, next) => {
 
 const postHandleNewPost = [validatePostDetails, createPost];
 
+const deletePost = async (req, res) => {
+  const deletionResult = await Post.deleteOne({ _id: req.params.id });
+  if (deletionResult.deletedCount === 1) {
+    res.redirect("/post");
+    return;
+  }
+  res.status(404).send("That post does not exist.");
+};
+
 module.exports = {
   getAllPosts,
   getNewPostPage,
   postHandleNewPost,
+  deletePost,
 };

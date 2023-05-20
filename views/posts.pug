@@ -13,3 +13,6 @@ block content
       if user && user.isMember
         p= post.date 
       p= post.message
+      if user && user.isAdmin
+        form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")
+          input(type="submit", value="Delete Post")

@@ -9,4 +9,6 @@ router.get("/new", postController.getNewPostPage);
 
 router.post("/new", postController.postHandleNewPost);
 
+router.delete("/:id/delete", postController.deletePost);
+
 module.exports = router;
