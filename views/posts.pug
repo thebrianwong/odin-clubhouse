@@ -8,6 +8,8 @@ block content
   for post in posts 
     div 
       p= post.title 
-      p= post.createdBy.username 
-      p= post.date 
+      if user && user.isMember
+        p= post.createdBy.username 
+      if user && user.isMember
+        p= post.date 
       p= post.message
