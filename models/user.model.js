@@ -11,6 +11,14 @@ const userSchema = new Schema({
   posts: { type: [Schema.Types.ObjectId], ref: "Posts" },
 });
 
+userSchema.virtual("isMember").get(function () {
+  return this.roles.includes("Member");
+});
+
+userSchema.virtual("isAdmin").get(function () {
+  return this.roles.includes("Admin");
+});
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
