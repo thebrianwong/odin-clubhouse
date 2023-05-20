@@ -4,7 +4,10 @@ const User = require("../models/user.model");
 
 const getAllPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find().populate("createdBy").exec();
+    const posts = await Post.find()
+      .populate("createdBy")
+      .sort({ date: "descending" })
+      .exec();
     console.log(posts);
     res.render("posts", { posts });
   } catch (err) {
