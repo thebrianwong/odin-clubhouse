@@ -9,9 +9,7 @@ block content
     div 
       p= post.title 
       if user && user.isMember
-        p= post.createdBy.username 
-      if user && user.isMember
-        p= post.date 
+        p By #{post.createdBy.username} on #{post.formattedDate }
       p= post.message
       if user && user.isAdmin
         form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")

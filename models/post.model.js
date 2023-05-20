@@ -9,6 +9,28 @@ const postSchema = new Schema({
   message: { type: String, required: true },
 });
 
+postSchema.virtual("formattedDate").get(function () {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const { date } = this;
+  const year = date.getFullYear();
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate();
+  return `${month} ${day}, ${year}`;
+});
+
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
