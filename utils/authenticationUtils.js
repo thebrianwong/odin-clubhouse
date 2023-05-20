@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local");
-const User = require("../models/user");
+const User = require("../models/user.model");
 
 const hashPassword = async (rawPassword) => {
   const saltRounds = 12;

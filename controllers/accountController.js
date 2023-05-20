@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
 const { hashPassword } = require("../utils/authenticationUtils");
-const User = require("../models/user");
+const User = require("../models/user.model");
 
 const getSignUpPage = (req, res) => {
   res.render("sign-up");
