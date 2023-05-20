@@ -58,7 +58,10 @@ const createPost = async (req, res, next) => {
     date: new Date(),
     message,
   });
-  await newPost.save();
+  const newPostDocument = await newPost.save();
+  const user = await User.findById(userId).exec();
+  user.posts.push(newPostDocument._id);
+  await user.save();
   res.redirect("/post");
 };
 
