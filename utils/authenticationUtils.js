@@ -11,7 +11,7 @@ const hashPassword = async (rawPassword) => {
 const authenticateLogInCredentials = new LocalStrategy(
   async (username, password, done) => {
     try {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username }).exec();
       if (!user) {
         console.log("Failed log in: invalid username");
         return done(null, false, {
@@ -37,7 +37,7 @@ const saveUserId = (user, done) => {
 
 const getUserFromId = async (id, done) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).exec();
     done(null, user);
   } catch (err) {
     done(err);
