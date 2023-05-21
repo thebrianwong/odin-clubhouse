@@ -185,6 +185,20 @@ const postHandleGrantAdmin = async (req, res, next) => {
   }
 };
 
+const postLogOut = (req, res, next) => {
+  try {
+    req.logout(() => {
+      res.redirect("/account/log-in");
+    });
+  } catch (err) {
+    console.error(
+      `There was an error when user ID ${req.user.id} tried to log out.`
+    );
+    err.status = 500;
+    next(err);
+  }
+};
+
 module.exports = {
   getSignUpPage,
   postHandleSignUp,
@@ -194,4 +208,5 @@ module.exports = {
   postHandleMembership,
   getAdminPage,
   postHandleGrantAdmin,
+  postLogOut,
 };

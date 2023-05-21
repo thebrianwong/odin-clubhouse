@@ -27,4 +27,6 @@ router.get("/admin", accountController.getAdminPage);
 
 router.post("/admin", accountController.postHandleGrantAdmin);
 
+router.post("/log-out", accountController.postLogOut);
+
 module.exports = router;
