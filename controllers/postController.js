@@ -67,7 +67,7 @@ const createPost = async (req, res, next) => {
 const postHandleNewPost = [validatePostDetails, createPost];
 
 const deletePost = async (req, res) => {
-  const deletionResult = await Post.deleteOne({ _id: req.params.id });
+  const deletionResult = await Post.deleteOne({ _id: req.params.id }).exec();
   if (deletionResult.deletedCount === 1) {
     res.redirect("/post");
     return;

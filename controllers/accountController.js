@@ -105,7 +105,7 @@ const postHandleMembership = async (req, res, next) => {
       res.redirect("/account/member");
       return;
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).exec();
     user.roles.push("Member");
     await user.save();
     res.redirect("/post");
@@ -135,7 +135,7 @@ const postHandleGrantAdmin = async (req, res, next) => {
       res.redirect("/account/admin");
       return;
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).exec();
     user.roles.push("Admin");
     await user.save();
     res.redirect("/post");
