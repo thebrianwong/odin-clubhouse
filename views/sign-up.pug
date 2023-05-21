@@ -3,14 +3,28 @@ extends layout
 block content 
   h1 Sign Up
   form(action="", method="post")
+    if errors && errors.firstName 
+      p= errors.firstName
     label(for="firstName") First Name:
       input#firstName(type="text", name="firstName", required, value=(firstName ? firstName : ""))
+
+    if errors && errors.lastName 
+      p= errors.lastName
     label(for="lastName") Last Name:
       input#lastName(type="text", name="lastName", required, value=(lastName ? lastName : ""))  
+
+    if errors && errors.username 
+      p= errors.username
     label(for="username") Username:
       input#username(type="text", name="username", required, value=(username ? username : ""))
+
+    if errors && errors.password 
+      p= errors.password
     label(for="password") Password:
       input#password(type="password", name="password", minLength="8", required)
+
+    if errors && errors.confirmPassword 
+      p= errors.confirmPassword
     label(for="confirmPassword") Confirm Password:
       input#confirmPassword(type="password", name="confirmPassword", minLength="8", required)
     input(type="submit", value="Submit")

@@ -4,8 +4,7 @@ const { hashPassword } = require("../utils/authenticationUtils");
 const User = require("../models/user.model");
 
 const getSignUpPage = (req, res) => {
-  const { firstName, lastName, username } = req.session;
-  res.render("sign-up", { firstName, lastName, username });
+  res.render("sign-up");
 };
 
 const validateSignUpDetails = [
@@ -48,10 +47,15 @@ const validateSignUpDetails = [
   (req, res, next) => {
     const result = validationResult(req);
     if (result.errors.length) {
-      req.session.firstName = req.body.firstName;
-      req.session.lastName = req.body.lastName;
-      req.session.username = req.body.username;
-      res.redirect("/account/sign-up");
+      const { firstName, lastName, username } = req.body;
+      const errors = result.errors.reduce(
+        (totalErr, currentErr) => ({
+          ...totalErr,
+          [currentErr.path]: currentErr.msg,
+        }),
+        {}
+      );
+      res.render("sign-up", { firstName, lastName, username, errors });
     } else {
       next();
     }
