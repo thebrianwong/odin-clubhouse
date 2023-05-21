@@ -14,9 +14,9 @@ const getAllPosts = async (req, res, next) => {
   }
 };
 
-const getNewPostPage = (req, res) => {
+const getNewPostPage = (req, res, next) => {
   if (!req.user) {
-    res.status(403).send("Unauthorized");
+    next();
   }
   const { title, message } = req.session;
   res.render("new-post", { title, message });
@@ -49,7 +49,7 @@ const validatePostDetails = [
 
 const createPost = async (req, res, next) => {
   if (!req.user) {
-    res.status(403).send("Unauthorized");
+    next();
   }
   const { title, message } = req.body;
   const userId = req.user.id;

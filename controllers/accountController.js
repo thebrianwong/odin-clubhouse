@@ -91,10 +91,9 @@ const postLogIn = passport.authenticate("local", {
   failureRedirect: "/account/log-in",
 });
 
-const getMemberPage = (req, res) => {
+const getMemberPage = (req, res, next) => {
   if (!req.user) {
-    res.status(403).send("Unauthorized");
-    return;
+    next();
   }
   res.render("member", { user: req.user });
 };
@@ -102,7 +101,7 @@ const getMemberPage = (req, res) => {
 const postHandleMembership = async (req, res, next) => {
   try {
     if (!req.user) {
-      res.status(403).send("Unauthorized");
+      next();
     }
     if (req.body.password !== process.env.MEMBER_PASSWORD) {
       res.redirect("/account/member");
@@ -121,10 +120,9 @@ const postHandleMembership = async (req, res, next) => {
   }
 };
 
-const getAdminPage = (req, res) => {
+const getAdminPage = (req, res, next) => {
   if (!req.user || !req.user.isMember) {
-    res.status(403).send("Unauthorized");
-    return;
+    next();
   }
   res.render("admin", { user: req.user });
 };
@@ -132,7 +130,7 @@ const getAdminPage = (req, res) => {
 const postHandleGrantAdmin = async (req, res, next) => {
   try {
     if (!req.user) {
-      res.status(403).send("Unauthorized");
+      next();
     }
     if (req.body.password !== process.env.ADMIN_PASSWORD) {
       res.redirect("/account/admin");
