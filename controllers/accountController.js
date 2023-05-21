@@ -4,6 +4,10 @@ const { hashPassword } = require("../utils/authenticationUtils");
 const User = require("../models/user.model");
 
 const getSignUpPage = (req, res) => {
+  if (req.user) {
+    res.redirect("/post");
+    return;
+  }
   res.render("sign-up");
 };
 
@@ -90,6 +94,10 @@ const createAccount = async (req, res, next) => {
 const postHandleSignUp = [validateSignUpDetails, createAccount];
 
 const getLogInPage = (req, res) => {
+  if (req.user) {
+    res.redirect("/post");
+    return;
+  }
   let error;
   if (req.session.messages) {
     error = req.session.messages;
