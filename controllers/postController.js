@@ -22,8 +22,7 @@ const getNewPostPage = (req, res, next) => {
   if (!req.user) {
     next();
   }
-  const { title, message } = req.session;
-  res.render("new-post", { title, message });
+  res.render("new-post");
 };
 
 const validatePostDetails = [
@@ -42,9 +41,15 @@ const validatePostDetails = [
   (req, res, next) => {
     const result = validationResult(req);
     if (result.errors.length) {
-      req.session.title = req.body.title;
-      req.session.message = req.body.message;
-      res.redirect("/post/new");
+      const { title, message } = req.body;
+      const errors = result.errors.reduce(
+        (totalErr, currentErr) => ({
+          ...totalErr,
+          [currentErr.path]: currentErr.msg,
+        }),
+        {}
+      );
+      res.render("new-post", { title, message, errors });
     } else {
       next();
     }
