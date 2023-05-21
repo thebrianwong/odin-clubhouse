@@ -25,7 +25,7 @@ const getNewPostPage = (req, res, next) => {
     next(err);
     return;
   }
-  res.render("post/new-post");
+  res.render("post/new-post", { user: req.user });
 };
 
 const validatePostDetails = [
