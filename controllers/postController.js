@@ -18,7 +18,8 @@ const getNewPostPage = (req, res) => {
   if (!req.user) {
     res.status(403).send("Unauthorized");
   }
-  res.render("new-post");
+  const { title, message } = req.session;
+  res.render("new-post", { title, message });
 };
 
 const validatePostDetails = [
@@ -37,8 +38,9 @@ const validatePostDetails = [
   (req, res, next) => {
     const result = validationResult(req);
     if (result.errors.length) {
-      // Redirect to sign up page with form filled with entered details
-      res.status(401).send("errors");
+      req.session.title = req.body.title;
+      req.session.message = req.body.message;
+      res.redirect("/post/new");
     } else {
       next();
     }

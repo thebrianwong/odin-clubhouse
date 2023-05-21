@@ -4,7 +4,8 @@ const { hashPassword } = require("../utils/authenticationUtils");
 const User = require("../models/user.model");
 
 const getSignUpPage = (req, res) => {
-  res.render("sign-up");
+  const { firstName, lastName, username } = req.session;
+  res.render("sign-up", { firstName, lastName, username });
 };
 
 const validateSignUpDetails = [
@@ -39,8 +40,10 @@ const validateSignUpDetails = [
   (req, res, next) => {
     const result = validationResult(req);
     if (result.errors.length) {
-      // Redirect to sign up page with form filled with entered details
-      res.status(401).send("errors");
+      req.session.firstName = req.body.firstName;
+      req.session.lastName = req.body.lastName;
+      req.session.username = req.body.username;
+      res.redirect("/account/sign-up");
     } else {
       next();
     }
