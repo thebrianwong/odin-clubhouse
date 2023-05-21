@@ -1,7 +1,7 @@
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px
+  gap: 15px;
 }
 
 .post {
@@ -11,6 +11,7 @@
   border-radius: 4px;
   padding: 10px;
   text-align: left;
+  background-color: white;
 
   form {
     align-self: flex-end;

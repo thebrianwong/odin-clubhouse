@@ -9,7 +9,7 @@ html
       a(href="/post")
         button See All Posts 
       if user
-        p= user.username
+        p.username= user.username
         if !user.isMember
           a(href="/account/member")
             button Become a Member  

@@ -9,7 +9,7 @@ block content
   else 
     if error 
       p= error
-    form(action="", method="post") 
+    form.form.role-form(action="", method="post") 
       label(for="password") Enter the secret clubhouse password to become a member.
-        input#password(type="password", name="password")
+      input#password(type="password", name="password")
       input(type="submit", value="Enter")

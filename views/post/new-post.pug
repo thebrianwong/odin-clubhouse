@@ -2,13 +2,13 @@ extends ../layout
 
 block content 
   h1 Submit New Post 
-  form(action="", method="post") 
+  form.form(action="", method="post") 
     if errors && errors.title 
       p= errors.title
     label(for="title") Title:
-      input#title(type="text", name="title", required, value=(title ? title : ""))
+    input#title(type="text", name="title", required, value=(title ? title : ""))
     if errors && errors.message 
       p= errors.message
     label(for="message") Message:
-      textarea#message(name="message", cols="30", rows="10", required)= message ? message : ""
+    textarea#message(name="message", cols="30", rows="10", required)= message ? message : ""
     input(type="submit", value="Post")
