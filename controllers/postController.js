@@ -10,7 +10,11 @@ const getAllPosts = async (req, res, next) => {
       .exec();
     res.render("posts", { posts, user: req.user });
   } catch (err) {
-    throw new Error("There was an error loading posts from the database.");
+    console.error(
+      "There was an issue with database operations while querying all posts."
+    );
+    err.status = 500;
+    next(err);
   }
 };
 
@@ -48,30 +52,51 @@ const validatePostDetails = [
 ];
 
 const createPost = async (req, res, next) => {
-  if (!req.user) {
-    next();
+  try {
+    if (!req.user) {
+      next();
+    }
+    const { title, message } = req.body;
+    const userId = req.user.id;
+    const newPost = new Post({
+      createdBy: userId,
+      title,
+      date: new Date(),
+      message,
+    });
+    const newPostDocument = await newPost.save();
+    console.log(
+      `A new post ID ${newPostDocument._id} was successfully created.`
+    );
+    res.redirect("/post");
+  } catch (err) {
+    console.error(
+      "There was an issue with database operations while creating a post."
+    );
+    err.status = 500;
+    next(err);
   }
-  const { title, message } = req.body;
-  const userId = req.user.id;
-  const newPost = new Post({
-    createdBy: userId,
-    title,
-    date: new Date(),
-    message,
-  });
-  await newPost.save();
-  res.redirect("/post");
 };
 
 const postHandleNewPost = [validatePostDetails, createPost];
 
-const deletePost = async (req, res) => {
-  const deletionResult = await Post.deleteOne({ _id: req.params.id }).exec();
-  if (deletionResult.deletedCount === 1) {
-    res.redirect("/post");
-    return;
+const deletePost = async (req, res, next) => {
+  try {
+    const deletionResult = await Post.deleteOne({ _id: req.params.id }).exec();
+    if (deletionResult.deletedCount === 1) {
+      console.log(`Post ${req.params.id} was successfully deleted.`);
+      res.redirect("/post");
+      return;
+    }
+    console.error(`A post with ID ${req.params.id} does not exist.`);
+    next();
+  } catch (err) {
+    console.error(
+      "There was an issue with database operations while delete a post."
+    );
+    err.status = 500;
+    next(err);
   }
-  res.status(404).send("That post does not exist.");
 };
 
 module.exports = {
