@@ -15,6 +15,7 @@ const {
   getUserFromId,
 } = require("./utils/authenticationUtils");
 
+const indexRouter = require("./routes/index");
 const accountRouter = require("./routes/account");
 const postRouter = require("./routes/post");
 
@@ -54,6 +55,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use("/", indexRouter);
 app.use("/account", accountRouter);
 app.use("/post", postRouter);
 

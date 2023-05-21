@@ -1,5 +1,12 @@
-extends layout
+doctype html
+html
+  head
+    title The Clubhouse
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1 Welcome to the Clubhouse
+    p #[a(href="/post") Check out some posts] made by Clubhouse members.
+    p #[a(href="/account/log-in") Log in] to make a new post.
+    p Or #[a(href="/account/sign-up") create an account] to join the club.
 
-block content
-  h1= title
-  p Welcome to #{title}
+

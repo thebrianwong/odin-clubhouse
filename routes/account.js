@@ -6,10 +6,6 @@ router.use((req, res, next) => {
   console.log(req.user);
   next();
 });
-/* GET home page. */
-router.get("/", (req, res, next) => {
-  res.render("index", { title: "Express" });
-});
 
 router.get("/sign-up", accountController.getSignUpPage);
 
