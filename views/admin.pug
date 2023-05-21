@@ -7,6 +7,8 @@ block content
     a(href="/post")
       button View Posts
   else 
+    if error 
+      p= error
     form(action="", method="post") 
       label(for="password") Enter the secret clubhouse password to become an admin.
         input#password(type="password", name="password")

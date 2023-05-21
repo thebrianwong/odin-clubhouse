@@ -117,7 +117,7 @@ const postHandleMembership = async (req, res, next) => {
       next();
     }
     if (req.body.password !== process.env.MEMBER_PASSWORD) {
-      res.redirect("/account/member");
+      res.render("member", { error: "Wrong, try again!" });
       return;
     }
     const user = await User.findById(req.user.id).exec();
@@ -147,7 +147,7 @@ const postHandleGrantAdmin = async (req, res, next) => {
       next();
     }
     if (req.body.password !== process.env.ADMIN_PASSWORD) {
-      res.redirect("/account/admin");
+      res.render("admin", { error: "Wrong, try again!" });
       return;
     }
     const user = await User.findById(req.user.id).exec();
