@@ -8,7 +8,6 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   roles: [String],
-  posts: { type: [Schema.Types.ObjectId], ref: "Posts" },
 });
 
 userSchema.virtual("isMember").get(function () {
