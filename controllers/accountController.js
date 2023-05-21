@@ -26,6 +26,14 @@ const validateSignUpDetails = [
     .escape()
     .notEmpty()
     .withMessage("Username must not be empty.")
+    .custom(async (value) => {
+      const usernameExists = await User.findOne({ username: value }).exec();
+      if (usernameExists === null) {
+        return Promise.resolve();
+      }
+      return Promise.reject();
+    })
+    .withMessage("Username is already taken.")
     .isString(),
   body("password")
     .notEmpty()
@@ -53,11 +61,6 @@ const validateSignUpDetails = [
 const createAccount = async (req, res, next) => {
   try {
     const { firstName, lastName, username, password } = req.body;
-    const existingUsername = await User.findOne({ username }).exec();
-    if (existingUsername) {
-      res.redirect("/account/sign-up");
-      return;
-    }
     const hashedPassword = await hashPassword(password);
     const newUser = new User({
       firstName,
