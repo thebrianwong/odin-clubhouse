@@ -3,8 +3,10 @@ extends layout
 block content 
   h1 Log In 
   form(action="", method="post") 
+    if error
+      p= error
     label(for="username") Username:
-      input#username(type="text", name="username")
+      input#username(type="text", name="username", required)
     label(for="password") Password:
-      input#password(type="password", name="password")
+      input#password(type="password", name="password", required)
     input(type="submit", value="Log In")
