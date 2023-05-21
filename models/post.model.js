@@ -31,6 +31,11 @@ postSchema.virtual("formattedDate").get(function () {
   return `${month} ${day}, ${year}`;
 });
 
+postSchema.virtual("formattedTime").get(function () {
+  const formattedTime = `${this.date.getHours()}:${this.date.getMinutes()}`;
+  return formattedTime;
+});
+
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
