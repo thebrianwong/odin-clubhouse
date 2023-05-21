@@ -90,12 +90,18 @@ const createAccount = async (req, res, next) => {
 const postHandleSignUp = [validateSignUpDetails, createAccount];
 
 const getLogInPage = (req, res) => {
-  res.render("log-in");
+  let error;
+  if (req.session.messages) {
+    error = req.session.messages;
+  }
+  req.session.messages = undefined;
+  res.render("log-in", { error });
 };
 
 const postLogIn = passport.authenticate("local", {
   successRedirect: "/post",
   failureRedirect: "/account/log-in",
+  failureMessage: "Invalid credentials. Try again.",
 });
 
 const getMemberPage = (req, res, next) => {
