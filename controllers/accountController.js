@@ -8,7 +8,7 @@ const getSignUpPage = (req, res) => {
     res.redirect("/post");
     return;
   }
-  res.render("sign-up");
+  res.render("auth/sign-up");
 };
 
 const validateSignUpDetails = [
@@ -59,7 +59,7 @@ const validateSignUpDetails = [
         }),
         {}
       );
-      res.render("sign-up", { firstName, lastName, username, errors });
+      res.render("auth/sign-up", { firstName, lastName, username, errors });
     } else {
       next();
     }
@@ -103,7 +103,7 @@ const getLogInPage = (req, res) => {
     error = req.session.messages;
   }
   req.session.messages = undefined;
-  res.render("log-in", { error });
+  res.render("auth/log-in", { error });
 };
 
 const postLogIn = passport.authenticate("local", {
@@ -116,7 +116,7 @@ const getMemberPage = (req, res, next) => {
   if (!req.user) {
     next();
   }
-  res.render("member", { user: req.user });
+  res.render("roles/member", { user: req.user });
 };
 
 const postHandleMembership = async (req, res, next) => {
@@ -125,7 +125,7 @@ const postHandleMembership = async (req, res, next) => {
       next();
     }
     if (req.body.password !== process.env.MEMBER_PASSWORD) {
-      res.render("member", { error: "Wrong, try again!" });
+      res.render("roles/member", { error: "Wrong, try again!" });
       return;
     }
     const user = await User.findById(req.user.id).exec();
@@ -146,7 +146,7 @@ const getAdminPage = (req, res, next) => {
   if (!req.user || !req.user.isMember) {
     next();
   }
-  res.render("admin", { user: req.user });
+  res.render("roles/admin", { user: req.user });
 };
 
 const postHandleGrantAdmin = async (req, res, next) => {
@@ -155,7 +155,7 @@ const postHandleGrantAdmin = async (req, res, next) => {
       next();
     }
     if (req.body.password !== process.env.ADMIN_PASSWORD) {
-      res.render("admin", { error: "Wrong, try again!" });
+      res.render("roles/admin", { error: "Wrong, try again!" });
       return;
     }
     const user = await User.findById(req.user.id).exec();

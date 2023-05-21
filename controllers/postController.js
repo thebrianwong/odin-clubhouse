@@ -8,7 +8,7 @@ const getAllPosts = async (req, res, next) => {
       .populate("createdBy")
       .sort({ date: "descending" })
       .exec();
-    res.render("posts", { posts, user: req.user });
+    res.render("post/posts", { posts, user: req.user });
   } catch (err) {
     console.error(
       "There was an issue with database operations while querying all posts."
@@ -22,7 +22,7 @@ const getNewPostPage = (req, res, next) => {
   if (!req.user) {
     next();
   }
-  res.render("new-post");
+  res.render("post/new-post");
 };
 
 const validatePostDetails = [
@@ -49,7 +49,7 @@ const validatePostDetails = [
         }),
         {}
       );
-      res.render("new-post", { title, message, errors });
+      res.render("post/new-post", { title, message, errors });
     } else {
       next();
     }

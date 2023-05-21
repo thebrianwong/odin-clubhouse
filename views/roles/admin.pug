@@ -1,15 +1,15 @@
-extends layout 
+extends ../layout 
 
 block content
-  h1 Clubhouse Membership
-  if user && user.isMember 
-    p It seems you are already a member 
+  h1 Clubhouse Admin
+  if user && user.isAdmin 
+    p It seems you are already an admin. 
     a(href="/post")
       button View Posts
   else 
     if error 
       p= error
     form(action="", method="post") 
-      label(for="password") Enter the secret clubhouse password to become a member.
+      label(for="password") Enter the secret clubhouse password to become an admin.
         input#password(type="password", name="password")
       input(type="submit", value="Enter")
