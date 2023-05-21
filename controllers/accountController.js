@@ -48,24 +48,33 @@ const validateSignUpDetails = [
 ];
 
 const createAccount = async (req, res, next) => {
-  const { firstName, lastName, username, password } = req.body;
-  const existingUsername = await User.findOne({ username }).exec();
-  if (existingUsername) {
-    res.redirect("/account/sign-up");
-    return;
+  try {
+    const { firstName, lastName, username, password } = req.body;
+    const existingUsername = await User.findOne({ username }).exec();
+    if (existingUsername) {
+      res.redirect("/account/sign-up");
+      return;
+    }
+    const hashedPassword = await hashPassword(password);
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      password: hashedPassword,
+      roles: ["User"],
+    });
+    const newUserDocument = await newUser.save();
+    console.log(
+      `Successfully created and saved User ID ${newUserDocument._id}`
+    );
+    res.redirect("/account/log-in");
+  } catch (err) {
+    console.error(
+      "There was an issue with database operations while creating an account."
+    );
+    err.status = 500;
+    next(err);
   }
-  const hashedPassword = await hashPassword(password);
-  const newUser = new User({
-    firstName,
-    lastName,
-    username,
-    password: hashedPassword,
-    roles: ["User"],
-  });
-  const newUserDocument = await newUser.save();
-  console.log(`Successfully created and saved User ID ${newUserDocument._id}`);
-  // redirect to login page
-  res.redirect("/account/log-in");
 };
 
 const postHandleSignUp = [validateSignUpDetails, createAccount];
@@ -87,18 +96,26 @@ const getMemberPage = (req, res) => {
   res.render("member", { user: req.user });
 };
 
-const postHandleMembership = async (req, res) => {
-  if (!req.user) {
-    res.status(403).send("Unauthorized");
+const postHandleMembership = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      res.status(403).send("Unauthorized");
+    }
+    if (req.body.password !== process.env.MEMBER_PASSWORD) {
+      res.redirect("/account/member");
+      return;
+    }
+    const user = await User.findById(req.user.id);
+    user.roles.push("Member");
+    await user.save();
+    res.redirect("/post");
+  } catch (err) {
+    console.error(
+      "There was an issue with database operations while granting Member status."
+    );
+    err.status = 500;
+    next(err);
   }
-  if (req.body.password !== process.env.MEMBER_PASSWORD) {
-    res.redirect("/account/member");
-    return;
-  }
-  const user = await User.findById(req.user.id);
-  user.roles.push("Member");
-  await user.save();
-  res.redirect("/post");
 };
 
 const getAdminPage = (req, res) => {
@@ -109,18 +126,26 @@ const getAdminPage = (req, res) => {
   res.render("admin", { user: req.user });
 };
 
-const postHandleGrantAdmin = async (req, res) => {
-  if (!req.user) {
-    res.status(403).send("Unauthorized");
+const postHandleGrantAdmin = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      res.status(403).send("Unauthorized");
+    }
+    if (req.body.password !== process.env.ADMIN_PASSWORD) {
+      res.redirect("/account/admin");
+      return;
+    }
+    const user = await User.findById(req.user.id);
+    user.roles.push("Admin");
+    await user.save();
+    res.redirect("/post");
+  } catch (err) {
+    console.error(
+      "There was an issue with database operations while granting Admin status."
+    );
+    err.status = 500;
+    next(err);
   }
-  if (req.body.password !== process.env.ADMIN_PASSWORD) {
-    res.redirect("/account/admin");
-    return;
-  }
-  const user = await User.findById(req.user.id);
-  user.roles.push("Admin");
-  await user.save();
-  res.redirect("/post");
 };
 
 module.exports = {
