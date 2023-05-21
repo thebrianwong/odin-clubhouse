@@ -1,16 +1,19 @@
 extends ../layout 
 
 block content 
-  h1 Clubhouse Posts 
-  if user
-    a(href="/post/new")
-      button Add New Post  
-  for post in posts 
-    div 
-      p= post.title 
-      if user && user.isMember
-        p By #{post.createdBy.username} on #{post.formattedDate }
-      p= post.message
-      if user && user.isAdmin
-        form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")
-          input(type="submit", value="Delete Post")
+  div.content
+    div.content-header
+      h1 Clubhouse Posts 
+      if user
+        a(href="/post/new")
+          button Add New Post  
+    div.posts-grid
+      for post in posts 
+        div.post 
+          p= post.title 
+          if user && user.isMember
+            p By #{post.createdBy.username} on #{post.formattedDate} at #{post.formattedTime}
+          p= post.message
+          if user && user.isAdmin
+            form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")
+              input(type="submit", value="Delete Post")

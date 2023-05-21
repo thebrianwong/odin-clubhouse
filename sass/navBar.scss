@@ -1,0 +1,16 @@
+nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  border-bottom: solid 2px black;
+
+  *:nth-child(2) {
+    margin-left: auto;
+  }
+
+  .clubhouse {
+    font-size: xx-large;
+    font-weight: 600;
+  }
+}

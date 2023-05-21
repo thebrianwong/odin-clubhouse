@@ -1,0 +1,17 @@
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  border: solid 4px darkgray;
+  border-radius: 4px;
+  padding: 10px;
+
+  form {
+    align-self: flex-end;
+  }
+}
