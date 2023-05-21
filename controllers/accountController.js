@@ -110,6 +110,7 @@ const postHandleMembership = async (req, res, next) => {
     const user = await User.findById(req.user.id).exec();
     user.roles.push("Member");
     await user.save();
+    console.log(`User ID ${req.user.id} is now a Member.`);
     res.redirect("/post");
   } catch (err) {
     console.error(
@@ -139,6 +140,7 @@ const postHandleGrantAdmin = async (req, res, next) => {
     const user = await User.findById(req.user.id).exec();
     user.roles.push("Admin");
     await user.save();
+    console.log(`User ID ${req.user.id} is now an Admin.`);
     res.redirect("/post");
   } catch (err) {
     console.error(
