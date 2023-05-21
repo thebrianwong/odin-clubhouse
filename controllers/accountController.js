@@ -87,6 +87,7 @@ const createAccount = async (req, res, next) => {
       "There was an issue with database operations while creating an account."
     );
     err.status = 500;
+    err.message = "Something seems to have gone wrong. Please try again later.";
     next(err);
   }
 };
@@ -114,7 +115,10 @@ const postLogIn = passport.authenticate("local", {
 
 const getMemberPage = (req, res, next) => {
   if (!req.user) {
-    next();
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
+    return;
   }
   res.render("roles/member", { user: req.user });
 };
@@ -122,7 +126,10 @@ const getMemberPage = (req, res, next) => {
 const postHandleMembership = async (req, res, next) => {
   try {
     if (!req.user) {
-      next();
+      const err = new Error("Bad Request");
+      err.status = 400;
+      next(err);
+      return;
     }
     if (req.body.password !== process.env.MEMBER_PASSWORD) {
       res.render("roles/member", { error: "Wrong, try again!" });
@@ -144,7 +151,10 @@ const postHandleMembership = async (req, res, next) => {
 
 const getAdminPage = (req, res, next) => {
   if (!req.user || !req.user.isMember) {
-    next();
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
+    return;
   }
   res.render("roles/admin", { user: req.user });
 };
@@ -152,7 +162,10 @@ const getAdminPage = (req, res, next) => {
 const postHandleGrantAdmin = async (req, res, next) => {
   try {
     if (!req.user) {
-      next();
+      const err = new Error("Bad Request");
+      err.status = 400;
+      next(err);
+      return;
     }
     if (req.body.password !== process.env.ADMIN_PASSWORD) {
       res.render("roles/admin", { error: "Wrong, try again!" });

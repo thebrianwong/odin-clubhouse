@@ -20,7 +20,10 @@ const getAllPosts = async (req, res, next) => {
 
 const getNewPostPage = (req, res, next) => {
   if (!req.user) {
-    next();
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
+    return;
   }
   res.render("post/new-post");
 };
@@ -59,7 +62,10 @@ const validatePostDetails = [
 const createPost = async (req, res, next) => {
   try {
     if (!req.user) {
-      next();
+      const err = new Error("Bad Request");
+      err.status = 400;
+      next(err);
+      return;
     }
     const { title, message } = req.body;
     const userId = req.user.id;
