@@ -12,7 +12,7 @@ html
       a(href="/post")
         button See All Posts 
       if user
-        p Logged in as 
+        p.username-container Logged in as 
           span.username= user.username
         if !user.isMember
           a(href="/account/member")
