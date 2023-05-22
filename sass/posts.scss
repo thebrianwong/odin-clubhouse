@@ -12,6 +12,7 @@
   padding: 10px;
   text-align: left;
   background-color: white;
+  max-height: 250px;
 
   p {
     margin: 10px 0;
@@ -20,6 +21,7 @@
   .post-title {
     font-weight: 600;
     font-size: x-large;
+    overflow-y: auto;
   }
 
   .post-author-date {
@@ -28,6 +30,7 @@
 
   .post-message {
     font-size: large;
+    overflow-y: auto;
   }
 
   form {
