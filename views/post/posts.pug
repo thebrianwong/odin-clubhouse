@@ -11,10 +11,10 @@ block content
       if posts.length
         for post in posts 
           div.post 
-            p= post.title 
+            p.post-title= post.title 
             if user && user.isMember
-              p By #{post.createdBy.username} on #{post.formattedDate} at #{post.formattedTime}
-            p= post.message
+              p.post-author-date By #{post.createdBy.username} on #{post.formattedDate} at #{post.formattedTime}
+            p.post-message= post.message
             if user && user.isAdmin
               form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")
                 input(type="submit", value="Delete Post")

@@ -13,6 +13,19 @@
   text-align: left;
   background-color: white;
 
+  .post-title {
+    font-weight: 600;
+    font-size: x-large;
+  }
+
+  .post-author-date {
+    font-style: italic;
+  }
+
+  .post-message {
+    font-size: large;
+  }
+
   form {
     align-self: flex-end;
   }
