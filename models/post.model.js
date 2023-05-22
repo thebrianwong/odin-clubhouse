@@ -32,8 +32,20 @@ postSchema.virtual("formattedDate").get(function () {
 });
 
 postSchema.virtual("formattedTime").get(function () {
-  const formattedTime = `${this.date.getHours()}:${this.date.getMinutes()}`;
-  return formattedTime;
+  let hours = this.date.getHours();
+  let minutes = this.date.getMinutes();
+  let isAM = true;
+  if (hours > 12) {
+    hours -= 12;
+    isAM = false;
+  }
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  if (isAM) {
+    return `${hours}:${minutes} a.m.`;
+  }
+  return `${hours}:${minutes} p.m.`;
 });
 
 const Post = mongoose.model("Post", postSchema);
