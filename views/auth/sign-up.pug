@@ -2,7 +2,9 @@ extends ../layout
 
 block content 
   h1 Sign Up
+
   form.form(action="", method="post")
+
     if errors && errors.firstName 
       p= errors.firstName
     div
@@ -32,4 +34,5 @@ block content
     div 
       label(for="confirmPassword") Confirm Password: 
       input#confirmPassword(type="password", name="confirmPassword", minLength="8", required)
+      
     input(type="submit", value="Submit")

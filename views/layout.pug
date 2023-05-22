@@ -9,22 +9,30 @@ html
   body
     nav 
       a(href="/post").clubhouse.clubhouse-title The Clubhouse
+
       a(href="/post")
         button See All Posts 
+
       if user
         p.username-container Logged in as 
           span.username= user.username
+
         if !user.isMember
           a(href="/account/member")
             button Become a Member  
+
         if user.isMember && !user.isAdmin
           a(href="/account/admin")
             button Become an Admin  
+
         form(action="/account/log-out", method="post")
           input(type="submit", value="Log Out")
+
       else 
         a(href="/account/log-in")
           button Log In  
+
         a(href="/account/sign-up")
           button Sign Up
+          
     block content

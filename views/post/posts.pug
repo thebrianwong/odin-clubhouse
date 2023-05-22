@@ -2,21 +2,27 @@ extends ../layout
 
 block content 
   div.content
+
     div.content-header
       h1 Clubhouse Posts 
       if user
         a(href="/post/new")
           button Add New Post  
+
     div.posts-grid
       if posts.length
         for post in posts 
           div.post 
             p.post-title= post.title 
+
             if user && user.isMember
               p.post-author-date By #{post.createdBy.username} on #{post.formattedDate} at #{post.formattedTime}
+
             p.post-message= post.message
+
             if user && user.isAdmin
               form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")
                 input(type="submit", value="Delete Post")
+
       else
         p.no-posts The Clubhouse currently doesn't have any posts. Why don't you add the first post?
