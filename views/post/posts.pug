@@ -4,7 +4,14 @@ block content
   div.content
 
     div.content-header
-      h1 Clubhouse Posts 
+      if !user
+        h1 Clubhouse Posts 
+          span.posts-cta (Want to create your own posts? Create an account!)
+      else if user && !user.isMember
+        h1 Clubhouse Posts 
+          span.posts-cta (Want to see when each post was created and by who? Become a Member!)
+      else
+        h1 Clubhouse Posts
       if user
         a(href="/post/new")
           button Add New Post  
@@ -25,6 +32,6 @@ block content
                 input(type="submit", value="Delete Post")
 
       else
-        p.no-posts The Clubhouse currently doesn't have any posts. Why don't you add the first post?
+        p.no-posts The Clubhouse currently doesn't have any posts. Why don't you create the first post?
 
   div.footer-line 
