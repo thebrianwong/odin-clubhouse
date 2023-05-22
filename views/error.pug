@@ -3,4 +3,8 @@ extends layout
 block content
   h1= message
   h2= error.status
-  pre #{error.stack}
+  if error.stack
+    pre.error #{error.stack}
+
+  else 
+    p Uh oh, looks like something went wrong. Try refreshing or going to another page.

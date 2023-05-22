@@ -8,6 +8,10 @@ body {
   text-decoration: underline;
 }
 
+.error {
+  overflow: auto;
+}
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
