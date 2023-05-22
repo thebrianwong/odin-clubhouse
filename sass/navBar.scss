@@ -1,8 +1,10 @@
 nav {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  padding: 10px;
   border-bottom: solid 2px black;
 
   *:nth-child(2) {
