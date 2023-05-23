@@ -5,8 +5,10 @@
 }
 
 .post {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 2fr 6fr 2fr;
+  gap: 5px;
   border: solid 4px darkgray;
   border-radius: 4px;
   padding: 10px;
@@ -36,7 +38,7 @@
   }
 
   form {
-    align-self: flex-end;
+    justify-self: end;
     margin-top: auto;
   }
 }
