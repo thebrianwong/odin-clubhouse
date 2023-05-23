@@ -18,7 +18,7 @@ html
 
       if user
         p.username-container Logged in as 
-          span.username= user.username
+          span.username= user.formattedUsername
 
         if !user.isMember
           a(href="/account/member")

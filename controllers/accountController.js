@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const passport = require("passport");
+const he = require("he");
 const { hashPassword } = require("../utils/authenticationUtils");
 const User = require("../models/user.model");
 
@@ -26,6 +27,8 @@ const validateSignUpDetails = [
     .isString(),
   body("username")
     .trim()
+    .isAlphanumeric()
+    .withMessage("Username must only contain letters and numbers")
     .escape()
     .notEmpty()
     .withMessage("Username must not be empty.")
@@ -59,7 +62,12 @@ const validateSignUpDetails = [
         }),
         {}
       );
-      res.render("auth/sign-up", { firstName, lastName, username, errors });
+      res.render("auth/sign-up", {
+        firstName: he.decode(firstName),
+        lastName: he.decode(lastName),
+        username: he.decode(username),
+        errors,
+      });
     } else {
       next();
     }

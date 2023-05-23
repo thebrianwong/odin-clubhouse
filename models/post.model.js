@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const he = require("he");
 
 const { Schema } = mongoose;
 
@@ -46,6 +47,14 @@ postSchema.virtual("formattedTime").get(function () {
     return `${hours}:${minutes} a.m.`;
   }
   return `${hours}:${minutes} p.m.`;
+});
+
+postSchema.virtual("formattedTitle").get(function () {
+  return he.decode(this.title);
+});
+
+postSchema.virtual("formattedMessage").get(function () {
+  return he.decode(this.message);
 });
 
 const Post = mongoose.model("Post", postSchema);

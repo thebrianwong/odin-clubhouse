@@ -1,6 +1,6 @@
 const { body, validationResult } = require("express-validator");
+const he = require("he");
 const Post = require("../models/post.model");
-const User = require("../models/user.model");
 
 const getAllPosts = async (req, res, next) => {
   try {
@@ -52,7 +52,11 @@ const validatePostDetails = [
         }),
         {}
       );
-      res.render("post/new-post", { title, message, errors });
+      res.render("post/new-post", {
+        title: he.decode(title),
+        message: he.decode(message),
+        errors,
+      });
     } else {
       next();
     }

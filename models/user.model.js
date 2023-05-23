@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const he = require("he");
 
 const { Schema } = mongoose;
 
@@ -16,6 +17,10 @@ userSchema.virtual("isMember").get(function () {
 
 userSchema.virtual("isAdmin").get(function () {
   return this.roles.includes("Admin");
+});
+
+userSchema.virtual("formattedUsername").get(function () {
+  return he.decode(this.username);
 });
 
 const User = mongoose.model("User", userSchema);

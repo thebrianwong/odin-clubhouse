@@ -20,12 +20,12 @@ block content
       if posts.length
         for post in posts 
           div.post 
-            p.post-title= post.title 
+            p.post-title= post.formattedTitle 
 
             if user && user.isMember
-              p.post-author-date By #{post.createdBy.username} on #{post.formattedDate} at #{post.formattedTime}
+              p.post-author-date By #{post.createdBy.formattedUsername} on #{post.formattedDate} at #{post.formattedTime}
 
-            p.post-message= post.message
+            p.post-message= post.formattedMessage
 
             if user && user.isAdmin
               form(action=`/post/${post.id}/delete?_method=DELETE`, method="post")

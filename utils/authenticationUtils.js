@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local");
+const he = require("he");
 const User = require("../models/user.model");
 
 const hashPassword = async (rawPassword) => {
@@ -11,7 +12,8 @@ const hashPassword = async (rawPassword) => {
 const authenticateLogInCredentials = new LocalStrategy(
   async (username, password, done) => {
     try {
-      const user = await User.findOne({ username }).exec();
+      const formattedUsername = he.encode(username);
+      const user = await User.findOne({ username: formattedUsername }).exec();
       if (!user) {
         console.log("Failed log in: invalid username");
         return done(null, false, {
