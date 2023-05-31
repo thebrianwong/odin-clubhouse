@@ -2,10 +2,6 @@ const express = require("express");
 const accountController = require("../controllers/accountController");
 
 const router = express.Router();
-router.use((req, res, next) => {
-  console.log(req.user);
-  next();
-});
 
 router.get("/sign-up", accountController.getSignUpPage);
 
