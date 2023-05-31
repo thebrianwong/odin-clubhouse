@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const compression = require("compression");
+const helmet = require("helmet");
 
 const {
   authenticateLogInCredentials,
@@ -49,6 +51,8 @@ passport.deserializeUser(getUserFromId);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(compression());
+app.use(helmet.contentSecurityPolicy());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
