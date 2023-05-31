@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "npm run sass-compile && node ./bin/www",
     "dev": "nodemon ./bin/www",
     "sass-dev": "sass --watch sass/style.scss public/stylesheets/style.css",
     "sass-compile": "sass sass/style.scss public/stylesheets/style.css"
